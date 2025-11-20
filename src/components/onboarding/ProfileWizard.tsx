@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/toast-provider";
-import { createFirstProfile } from "@/app/(app)/onboarding/profile/actions";
+import { createFirstProfile } from "@/app/onboarding/profile/actions";
 
 type Tool = {
   id: string;
