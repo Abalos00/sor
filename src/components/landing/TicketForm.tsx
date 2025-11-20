@@ -12,6 +12,7 @@ type Ticket = {
 };
 
 const STORAGE_KEY = "sor_tickets_local";
+const FORMSPREE_URL = "https://formspree.io/f/mblwbvln";
 
 type RawTicket = Partial<Ticket> & { description?: string };
 
@@ -42,10 +43,11 @@ export function TicketForm() {
     email: "",
     message: "",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const containsLink = (text: string) => /(https?:\/\/|www\.)/i.test(text);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const name = form.name.trim();
     const email = form.email.trim();
@@ -86,12 +88,44 @@ export function TicketForm() {
       message,
       createdAt: new Date().toISOString(),
     };
+
+    setSubmitting(true);
+
+    let succeeded = false;
+    try {
+      const response = await fetch(FORMSPREE_URL, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+        }),
+      });
+      succeeded = response.ok;
+    } catch {
+      succeeded = false;
+    } finally {
+      setSubmitting(false);
+    }
+    if (!succeeded) {
+      toast({
+        title: "No pudimos enviar el ticket",
+        description: "Intenta nuevamente o envianos un correo directo.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const updated = [ticket, ...tickets];
     setTickets(updated);
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
     setForm({ name: "", email: "", message: "" });
     toast({
-      title: "Ticket guardado en local",
+      title: "Ticket enviado",
       description: "Asignaremos prioridad cuando revisemos el caso.",
     });
   };
@@ -140,7 +174,11 @@ export function TicketForm() {
             placeholder="Detalla el problema o solicitud..."
           />
         </div>
-        <button className="w-full rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800">
+        <button
+          className="w-full rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-70"
+          type="submit"
+          disabled={submitting}
+        >
           Enviar ticket
         </button>
       </form>
