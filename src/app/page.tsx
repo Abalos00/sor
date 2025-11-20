@@ -190,7 +190,6 @@ export default function Home() {
                     Loop SOR
                   </div>
                 </div>
-                <p className="mt-3 text-center text-xs text-slate-500">Loop generado con Sora para mostrar SystemOnReady.</p>
               </div>
             </div>
           </div>
@@ -425,7 +424,7 @@ export default function Home() {
                   g.abalos.v@gmail.com
                 </a>
               </li>
-              <li>+54 11 1234 5678</li>
+              <li>+56 9 44935412</li>
               <li>Disponibles 9-18 GMT-3</li>
             </ul>
           </div>

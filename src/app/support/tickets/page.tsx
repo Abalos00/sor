@@ -33,12 +33,6 @@ export default function TicketsPage() {
             <p className="text-xs font-semibold uppercase tracking-[0.4em] text-slate-500">Que puedes hacer</p>
             <div className="space-y-4 text-sm text-slate-600">
               <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                <p className="font-semibold text-slate-900">Prioriza</p>
-                <p>
-                  Marca el ticket como alto, medio o bajo. Esto nos ayuda a acelerar incidentes que bloquean despliegues.
-                </p>
-              </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <p className="font-semibold text-slate-900">Guarda tu historial</p>
                 <p>
                   Cada envio genera un registro local para que puedas copiarlo y compartirlo por email o Slack sin perder
