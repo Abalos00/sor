@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const prerender = false;
@@ -21,12 +23,12 @@ export default function GlobalError({ error }: GlobalErrorProps) {
           {error?.digest && (
             <p className="mt-2 text-xs text-slate-400">Código de seguimiento: {error.digest}</p>
           )}
-          <a
+          <Link
             href="/"
             className="mt-6 rounded-full border border-slate-300 px-5 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100"
           >
             Ir a la landing
-          </a>
+          </Link>
         </div>
       </body>
     </html>
