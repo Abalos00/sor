@@ -1,0 +1,100 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Org {
+  id         String   @id @default(cuid())
+  name       String
+  webhookUrl String?
+  users      User[]
+  profiles   Profile[]
+  devices    Device[]
+}
+
+model User {
+  id       String  @id @default(cuid())
+  email    String  @unique
+  password String
+  role     String   // ADMIN | TECH
+  org      Org?     @relation(fields: [orgId], references: [id])
+  orgId    String?
+  termsAcceptedVersion String?
+  termsAcceptedAt DateTime?
+}
+
+model Profile {
+  id       String  @id @default(cuid())
+  org      Org     @relation(fields: [orgId], references: [id])
+  orgId    String
+  name     String
+  industry String  // Escolar, Empresa, etc.
+  os       String  // windows | macos | linux
+  wallpaperUrl String?  // Fondo de pantalla por defecto
+  wallpaperLock Boolean  @default(false)
+  tools    ProfileTool[]
+  jobs     Job[]
+}
+
+model Tool {
+  id         String  @id @default(cuid())
+  name       String
+  os         String
+  type       String   // app | config | license
+  installer  String?  // winget | choco | brew | apt
+  package    String?
+  homepage   String?
+  silentArgs String?
+  profiles   ProfileTool[]
+  tasks      JobTask[]
+}
+
+model ProfileTool {
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId String
+  tool      Tool    @relation(fields: [toolId], references: [id])
+  toolId    String
+  options   Json?
+  @@id([profileId, toolId])
+}
+
+model Device {
+  id      String @id @default(cuid())
+  org     Org    @relation(fields: [orgId], references: [id])
+  orgId   String
+  name    String
+  os      String
+  token   String  @unique
+  status  String  // idle | running | error | done
+  jobs    Job[]
+}
+
+model Job {
+  id        String   @id @default(cuid())
+  profile   Profile  @relation(fields: [profileId], references: [id])
+  profileId String
+  device    Device?  @relation(fields: [deviceId], references: [id])
+  deviceId  String?
+  createdBy String
+  status    String   // queued | running | failed | succeeded
+  tasks     JobTask[]
+  createdAt DateTime @default(now())
+  accessKey String   @unique @default(cuid())
+  updatedAt DateTime @updatedAt
+}
+
+model JobTask {
+  id        String  @id @default(cuid())
+  job       Job     @relation(fields: [jobId], references: [id])
+  jobId     String
+  tool      Tool    @relation(fields: [toolId], references: [id])
+  toolId    String
+  status    String  // queued | running | failed | succeeded
+  startedAt DateTime?
+  finishedAt DateTime?
+  logsUrl   String?
+}

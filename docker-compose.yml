@@ -1,0 +1,28 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: sor-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: sor
+    ports:
+      - "3307:3306"
+    volumes:
+      - sor-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-psecret"]
+      interval: 5s
+      retries: 10
+      timeout: 5s
+      start_period: 10s
+
+  redis:
+    image: redis:7
+    container_name: sor-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+volumes:
+  sor-mysql-data:

@@ -1,0 +1,4 @@
+ALTER TABLE `User`
+ADD COLUMN `termsAcceptedVersion` VARCHAR(191) NULL,
+ADD COLUMN `termsAcceptedAt` DATETIME NULL;
+
