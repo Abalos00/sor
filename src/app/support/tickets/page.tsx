@@ -57,6 +57,8 @@ export default function TicketsPage() {
                 o abre Slack con tu contacto de soporte asignado.
               </p>
             </div>
+            <br />
+            <br />
             <div className="flex gap-3 text-sm">
               <Link
                 href="/support"
