@@ -7,6 +7,27 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model SupportTicket {
+  id             String            @id @default(cuid())
+  number         Int               @unique @default(autoincrement())
+  contactName    String
+  contactLastName String?
+  contactEmail   String?
+  status         String            @default("open") // open | closed
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  messages       SupportMessage[]
+}
+
+model SupportMessage {
+  id        String        @id @default(cuid())
+  ticket    SupportTicket @relation(fields: [ticketId], references: [id])
+  ticketId  String
+  role      String        // user | support
+  content   String
+  createdAt DateTime      @default(now())
+}
+
 model Org {
   id         String   @id @default(cuid())
   name       String

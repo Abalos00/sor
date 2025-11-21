@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FaqAccordion } from "@/components/landing/FaqAccordion";
 import { DemoPreview } from "@/components/landing/DemoPreview";
 import { PricingSection } from "@/components/landing/PricingSection";
+import { BackToTopButton } from "@/components/ui/BackToTopButton";
 
 const highlights = [
   { label: "Organizaciones activas", value: "20+" },
@@ -387,6 +388,8 @@ export default function Home() {
           </div>
         </section>
       </main>
+
+      <BackToTopButton />
 
       <footer className="border-t border-slate-200 bg-white">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 md:grid-cols-4">

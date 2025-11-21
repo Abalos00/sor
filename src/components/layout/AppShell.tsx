@@ -7,6 +7,7 @@ import { signOut, useSession } from "next-auth/react";
 import { UserInfoPanel } from "@/components/layout/UserInfoPanel";
 import { LandingNav } from "@/components/layout/LandingNav";
 import { SessionIdleGuard } from "@/components/layout/SessionIdleGuard";
+import { SupportChatWidget } from "@/components/ui/SupportChatWidget";
 
 const navLinks = [
   { href: "/dashboard", label: "Dashboard" },
@@ -54,6 +55,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <>
         <LandingNav links={landingLinks} showAnchors={isLanding} isAuthenticated={isAuthenticated} />
         <main>{children}</main>
+        <SupportChatWidget />
       </>
     );
   }
@@ -97,6 +99,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       </header>
       <main>{children}</main>
+      <SupportChatWidget />
       {isAuthenticated && (
         <>
           <SessionIdleGuard onTimeout={handleSignOut} />

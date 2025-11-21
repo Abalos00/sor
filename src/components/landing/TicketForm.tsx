@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/toast-provider";
 
 type Ticket = {
@@ -37,7 +37,7 @@ function loadTickets(): Ticket[] {
 
 export function TicketForm() {
   const { toast } = useToast();
-  const [tickets, setTickets] = useState<Ticket[]>(() => loadTickets());
+  const [tickets, setTickets] = useState<Ticket[]>([]);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -48,6 +48,13 @@ export function TicketForm() {
   const [submitting, setSubmitting] = useState(false);
 
   const containsLink = (text: string) => /(https?:\/\/|www\.)/i.test(text);
+
+  useEffect(() => {
+    const existing = loadTickets();
+    if (existing.length) {
+      setTickets(existing);
+    }
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -276,4 +283,3 @@ export function TicketForm() {
     </div>
   );
 }
-

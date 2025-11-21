@@ -19,6 +19,18 @@ export function LandingNav({ links, showAnchors = true, isAuthenticated = false 
 
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const closeMenu = () => setMenuOpen(false);
+  const handleAnchorClick = (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const isAnchor = href.startsWith("#") || href.startsWith("/#");
+    if (!isAnchor) return;
+
+    event.preventDefault();
+    const id = href.replace("/#", "").replace("#", "");
+    const target = document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+    closeMenu();
+  };
 
   return (
     <header className="border-b border-slate-200 bg-white">
@@ -29,7 +41,7 @@ export function LandingNav({ links, showAnchors = true, isAuthenticated = false 
         <nav className="hidden gap-4 text-sm font-medium text-slate-600 md:flex">
           {showAnchors &&
             links.map((link) => (
-              <a key={link.href} href={link.href} className="hover:text-slate-900">
+              <a key={link.href} href={link.href} className="hover:text-slate-900" onClick={handleAnchorClick(link.href)}>
                 {link.label}
               </a>
             ))}
@@ -82,7 +94,12 @@ export function LandingNav({ links, showAnchors = true, isAuthenticated = false 
         <div className="space-y-3 px-4 py-4">
           {showAnchors &&
             links.map((link) => (
-              <a key={link.href} href={link.href} className="block text-sm font-medium text-slate-700" onClick={closeMenu}>
+              <a
+                key={link.href}
+                href={link.href}
+                className="block text-sm font-medium text-slate-700"
+                onClick={handleAnchorClick(link.href)}
+              >
                 {link.label}
               </a>
             ))}

@@ -65,7 +65,7 @@ export function DemoPreview() {
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{module.title}</p>
                 <p className="mt-2 text-sm text-slate-600">{module.description}</p>
                 <Link
-                  href="/login"
+                  href="/register"
                   className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
                 >
                   {module.action}

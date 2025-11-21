@@ -16,8 +16,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SOR - SystemOnReady",
+  title: "SystemOnReady",
   description: "MVP para perfilar dispositivos y orquestar instalaciones",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export const dynamic = "force-dynamic";
