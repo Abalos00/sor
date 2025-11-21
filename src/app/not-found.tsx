@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function NotFound() {
@@ -34,7 +35,7 @@ export default function NotFound() {
             <div className="relative">
               <div className="absolute inset-0 rounded-[28px] bg-emerald-200/40 blur-3xl" />
               <div className="relative flex h-40 w-40 items-center justify-center overflow-hidden rounded-3xl border border-slate-200 bg-slate-900/90 shadow-xl">
-                <img src="/logo-sor.svg" alt="SOR" className="h-full w-full object-contain" />
+                <Image src="/logo-sor.svg" alt="SOR" fill className="object-contain" />
               </div>
             </div>
           </div>

@@ -4,6 +4,17 @@ import { db } from "@/lib/db";
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
+type TelegramMessage = {
+  text?: string;
+  chat?: { id?: string | number };
+  from?: { is_bot?: boolean };
+};
+
+type TelegramUpdate = {
+  update_id: number;
+  message?: TelegramMessage;
+};
+
 let lastUpdateId = 0;
 const processedUpdateIds = new Set<number>();
 
@@ -63,7 +74,7 @@ async function ingestTelegramReplies() {
     }
 
     const payload = await tgResponse.json();
-    const updates = payload?.result ?? [];
+    const updates: TelegramUpdate[] = payload?.result ?? [];
 
     for (const upd of updates) {
       if (processedUpdateIds.has(upd?.update_id)) continue;
@@ -179,7 +190,7 @@ async function ingestTelegramReplies() {
     }
 
     if (updates.length > 0) {
-      const maxId = Math.max(...updates.map((u: any) => u.update_id));
+      const maxId = Math.max(...updates.map((u) => Number(u?.update_id ?? 0)));
       lastUpdateId = Math.max(lastUpdateId, maxId);
     }
   } catch {
